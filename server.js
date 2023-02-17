@@ -1,11 +1,12 @@
 // import npm packages
+require('dotenv').config()
 const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
 
 // import routers
 const indexRouter = require('./routes/index.js')
-
+const dogsRouter = require('./routes/dogs.js')
 // create the express app
 const app = express()
 
@@ -16,6 +17,7 @@ app.use(express.json())
 
 // mount imported routes
 app.use('/', indexRouter)
+app.use('/api/dogs', dogsRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {

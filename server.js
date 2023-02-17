@@ -19,6 +19,7 @@ app.use(express.json())
 app.use('/', indexRouter)
 app.use('/api/dogs', dogsRouter)
 
+
 // handle 404 errors
 app.use(function (req, res, next) {
   res.status(404).json({ err: 'Not found' })

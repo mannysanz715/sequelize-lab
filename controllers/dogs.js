@@ -1,4 +1,4 @@
-const { Dog } = require("../models")
+const { Dog, Feeding } = require("../models")
 
 async function create(req, res){
   try {
@@ -11,7 +11,8 @@ async function create(req, res){
 
 async function index(req, res){
   try {
-    const dogs = await Dog.findAll()
+    const dogs = await Dog.findAll({
+      include: [{ model: Feeding, as: "feedings" }]})
     res.status(200).json(dogs)
   } catch (error) {
     res.status(500).json(error)
@@ -38,9 +39,24 @@ async function deleteDog(req, res){
     res.status(500).json(error)
   }
 }
+
+const addFeeding = async (req, res) => {
+  console.log('hello')
+  try {
+    req.body.dogId = req.params.id
+    const feeding = await Feeding.create(req.body)
+    res.status(200).json(feeding)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
+
 module.exports = {
   create,
   index,
   update,
   delete: deleteDog,
+  addFeeding,
 }
